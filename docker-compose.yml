@@ -5,7 +5,9 @@
 #   llm-mock      o "LLM" que o seu worker vai chamar    localhost:8090 (contrato em MOCK_API.md)
 #
 # Entre containers, use os nomes dos serviços como host (postgres, storage, llm-mock).
-# Da sua máquina, use localhost.
+# Da sua máquina, use localhost. As portas só ficam abertas em 127.0.0.1 (não na sua rede local).
+# Se alguma porta já estiver em uso na sua máquina (ex.: um Postgres local na 5432), troque só o
+# número do lado de fora: "127.0.0.1:5433:5432" deixa o banco em localhost:5433.
 #
 # A sua API e o seu worker também precisam subir com `docker compose up` — veja o bloco
 # comentado no fim do arquivo.
@@ -18,7 +20,7 @@ services:
       POSTGRES_PASSWORD: desafio
       POSTGRES_DB: tasks
     ports:
-      - "5432:5432"
+      - "127.0.0.1:5432:5432"
     volumes:
       - postgres-data:/var/lib/postgresql/data
     healthcheck:
@@ -39,8 +41,8 @@ services:
       RUSTFS_CONSOLE_ENABLE: "true"
       RUSTFS_VOLUMES: /data
     ports:
-      - "9000:9000"
-      - "9001:9001"
+      - "127.0.0.1:9000:9000"
+      - "127.0.0.1:9001:9001"
     volumes:
       - storage-data:/data
     healthcheck:
@@ -70,7 +72,7 @@ services:
     environment:
       MOCK_API_KEY: mock-dev-key
     ports:
-      - "8090:8080"
+      - "127.0.0.1:8090:8080"
 
   # ---------------------------------------------------------------------------------------------
   # A SUA APLICAÇÃO. Descomente e ajuste: build, comandos, portas e variáveis são escolha sua.
@@ -80,7 +82,7 @@ services:
   #   build: .
   #   command: ["node", "dist/api.js"]
   #   ports:
-  #     - "3000:3000"
+  #     - "127.0.0.1:3000:3000"
   #   env_file: .env
   #   depends_on:
   #     postgres:
