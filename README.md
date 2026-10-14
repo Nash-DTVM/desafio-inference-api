@@ -43,8 +43,10 @@ Respostas:
 { "error": { "code": "…", "message": "…" } }
 ```
 
-Os arquivos devem ser guardados no **armazenamento S3** do compose (bucket `tasks-files`). O banco
-guarda só a referência, nunca os bytes.
+**A sua API** recebe os arquivos e os envia ao **armazenamento S3** do compose (bucket
+`tasks-files`) usando um cliente S3, por exemplo `PutObjectCommand` do `@aws-sdk/client-s3`. O
+banco guarda só a **chave** de cada objeto, nunca os bytes. Quem chama a API não fala com o bucket.
+Na hora de processar, o **worker** baixa os arquivos do bucket pela chave.
 
 ### 2. `GET /tasks/:id`: consultar uma task
 
