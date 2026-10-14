@@ -98,6 +98,28 @@ pasta [`samples/`](samples/) tem arquivos de exemplo para usar à vontade.
 manual além do que estiver documentado no seu README. O `docker-compose.yml` tem um bloco
 comentado mostrando onde plugar a sua aplicação.
 
+### Testando a sua API
+
+Não há interface: teste com `curl`, com um cliente HTTP (Postman, Insomnia, Bruno, a extensão REST
+Client do VS Code…) ou com seus testes automatizados. Exemplos com `curl`, supondo a API em
+`localhost:3000`:
+
+```bash
+# criar uma task (multipart: um -F por campo, um -F files=@ por arquivo)
+curl -s localhost:3000/tasks \
+  -F model=mock-flash \
+  -F 'prompt=Extraia o valor de face e o vencimento.' \
+  -F 'response_schema={"type":"object","required":["valor"],"properties":{"valor":{"type":"number"}}}' \
+  -F files=@samples/contrato.pdf \
+  -F files=@samples/comprovante.png
+
+# consultar
+curl -s localhost:3000/tasks/<id>
+```
+
+Os gatilhos do `MOCK_API.md` também funcionam aqui: o `prompt` da task chega ao LLM, então
+`-F 'prompt=Resuma. [[fail:503x2]]'` cria uma task cujas duas primeiras chamadas ao LLM falham.
+
 ## Stack
 
 - **Obrigatório:** TypeScript, Node.js 24 ou mais recente, e o **Postgres** do compose como banco.
