@@ -142,7 +142,8 @@ Não implemente **autenticação**, frontend nem deploy.
 1. Clique em **"Use this template"** e crie um repositório **privado** na sua conta do GitHub.
 2. Faça commits ao longo do trabalho. **O histórico também conta**, não precisa esmagar tudo num
    commit só.
-3. Adicione como colaboradores: [PREENCHER: usuários do GitHub dos avaliadores].
+3. Adicione como colaboradores os usuários [`andrevendramini`](https://github.com/andrevendramini) e
+   [`dukilee`](https://github.com/dukilee).
 4. Responda o e-mail com o link do repositório até o fim do prazo.
 
 O seu README deve trazer:
